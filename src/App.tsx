@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ArrayProvider from './contexts/ArrayContex'
+import TimeProvider from './contexts/TimeContext'
+import Navigation from './components/Navigation/Navigation'
+import Controls from './components/Controls'
+import BarVisualizer from './components/Visualizers/BarVisualizer/BarVisualizer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+    return (
+        <>
+            <ArrayProvider>
+                    <TimeProvider>
+                        <Navigation />
+                        <Controls />
+                    </TimeProvider>
+                    <BarVisualizer />
+            </ArrayProvider>
+        </>
+    )
 }
 
-export default App;
+export default App
