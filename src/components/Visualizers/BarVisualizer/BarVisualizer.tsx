@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { ArrayData } from '../../../types/types'
 import { increaseArrayQuantity } from '../../../utils/utils'
 import { ArrayDataContext, UpdateArrayDataContext } from '../../../contexts/ArrayContex'
@@ -10,10 +10,13 @@ const BarVisualizer = () => {
 
   useEffect(() => {
     //handle initial quantity
-    const array: ArrayData[] = [], currentQuantity = 1
+    const array: ArrayData = [], currentQuantity = 1
     let quantity = Number(sessionStorage.getItem("currentQuantity"));
-    console.log(quantity)
-    if (!quantity) quantity = 200
+    if (!quantity) {
+
+      quantity = 200
+      sessionStorage.setItem("currentQuantity", String(quantity));
+    };
     increaseArrayQuantity({ array, currentQuantity, quantity })
     setArray!(array)
   }, [])
@@ -25,13 +28,14 @@ const BarVisualizer = () => {
       <section>
         <p>{`quantity: ${array.length}`}</p>
         <div className='barsContainer'>
-          {array.map(({ height, green, red }) => {
+          {array.map((height) => {
             return (
               <div
                 key={ID()}
                 title={`${height}px`}
                 className='bar default-bgColor '
                 style={{ height: `${height}px` }}>
+                {array.length <= 30 ? `${height}` : null}
               </div>)
           })}
         </div>

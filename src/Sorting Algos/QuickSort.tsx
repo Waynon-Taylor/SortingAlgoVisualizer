@@ -1,27 +1,27 @@
-import { ArrayData, SortingDependencies } from "../types/types"
+import { SortingDependencies } from "../types/types"
 
+async function QuickSort(sortingDependencies: SortingDependencies) {
 
-const QuickSort: React.FC<{ sortingDependencies: SortingDependencies }> = ({ sortingDependencies }) => {
-    const { array, setArray, animater, sleepTimeRef } = sortingDependencies
+    const auxiliaryArray = sortingDependencies.auxiliaryArray!
+    const sleepTimeRef = sortingDependencies.sleepTimeRef!
+    const animater = sortingDependencies.animater!
 
-    let auxiliaryArray = [...array]
+    return quickSort(0, auxiliaryArray.length - 1)
 
-    async function partition(tempArray: ArrayData[], start: number, end: number) {
-
-        let pivot = array[end].height
+    async function partition(start: number, end: number) {
+        console.log('QuickSort')
+        let pivot = auxiliaryArray[end]
         let i = start - 1
         for (let j = start; j < end; j++) {
 
-            if (array[j].height <= pivot) {
-                tempArray[j] = { ...tempArray[j], green: true, }
+            if (auxiliaryArray[j] <= pivot) {
                 i += 1;
-                await animater(sleepTimeRef, j, i);
-                [tempArray[i], tempArray[j]] = [tempArray[j], tempArray[i]];
+                await animater!(sleepTimeRef, j, i);
+                [auxiliaryArray[i], auxiliaryArray[j]] = [auxiliaryArray[j], auxiliaryArray[i]];
             }
         }
-        await animater(sleepTimeRef, end, i + 1);
-        [tempArray[i + 1], tempArray[end]] = [tempArray[end], tempArray[i + 1]];
-        auxiliaryArray=tempArray
+        await animater!(sleepTimeRef, end, i + 1);
+        [auxiliaryArray[i + 1], auxiliaryArray[end]] = [auxiliaryArray[end], auxiliaryArray[i + 1]];
         return i + 1
     }
 
@@ -29,21 +29,10 @@ const QuickSort: React.FC<{ sortingDependencies: SortingDependencies }> = ({ sor
     async function quickSort(start: number, end: number) {
 
         if (start >= end) return
-        let pivot = await partition(array, start, end)
-
-        quickSort(start, pivot - 1)
-        quickSort(pivot + 1, end)
+        let pivot = await partition(start, end)
+        await quickSort(start, pivot - 1)
+        await quickSort(pivot + 1, end)
     }
-
-    function handleQuickSort() {
-        quickSort(0, auxiliaryArray.length - 1)
-        // setArray!(auxiliaryArray)
-    }
-
-    return (
-        <>
-            <button onClick={handleQuickSort}>QuickSort</button>
-        </>
-    )
 }
+
 export default QuickSort

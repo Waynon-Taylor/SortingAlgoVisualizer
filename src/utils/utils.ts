@@ -1,4 +1,3 @@
-import { ArrayData } from '../types/types'
 import { IncreaseArrayQuantity } from '../types/types'
 
 export const increaseArrayQuantity = ({
@@ -10,8 +9,8 @@ export const increaseArrayQuantity = ({
 
   for (let i = currentQuantity; i <= quantity; i++) {
     const randomNumber = generateRandoNumber(maxRange!, minRange!)
-    const listData: ArrayData = { height: randomNumber, green: false, red: false }
-    array.push(listData)
+    const height = randomNumber
+    array.push(height)
   };
 }
 

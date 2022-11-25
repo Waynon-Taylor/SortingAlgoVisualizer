@@ -1,15 +1,15 @@
 import { FormEvent, useContext } from 'react';
-import { ArrayData } from '../types/types'
 import { ArrayDataContext, UpdateArrayDataContext } from '../contexts/ArrayContex'
 import { UpdateTimeContext, TimeContext } from '../contexts/TimeContext'
+import { DisabledContext } from '../contexts/DisabledContext'
 import { increaseArrayQuantity } from '../utils/utils'
 
 const Controls: React.FC = () => {
     const arrayData = useContext(ArrayDataContext)
     const setArray = useContext(UpdateArrayDataContext)
-
     const sleepTime = useContext(TimeContext)
     const setSleepTime = useContext(UpdateTimeContext)
+    const disabledStatus = useContext(DisabledContext)
 
     const handleFreeze = () => {
         if (!sleepTime.isPause) {
@@ -30,18 +30,23 @@ const Controls: React.FC = () => {
             sessionStorage.setItem("currentQuantity", String(array.length));
             setArray!(array)
         } else {
-            for (let i = quantity; i < array.length;)
-                array.pop();
+            for (let i = quantity; i < array.length;) array.pop();
             sessionStorage.setItem("currentQuantity", String(array.length));
             setArray!(array)
         }
     }
 
+    const handleInputSpeed = (e: React.FormEvent<HTMLInputElement>) => {
+        sessionStorage.setItem("currentSleepTime", JSON.stringify({ ...sleepTime, inputSpeed: e.currentTarget.valueAsNumber }));
+        const currentSleepTime = JSON.parse(sessionStorage.getItem("currentSleepTime")!)
+        setSleepTime(currentSleepTime)
+    }
+
     return (
         <>
             <div>
-                <button onClick={() => location.reload()}>Shuffle</button>
-                <button onClick={handleFreeze}>Freeze</button>
+                <button onClick={() => window.location.reload()}>Shuffle</button>
+                <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
                 Quantity
                 <input
                     onInput={handleInpuitQuantity}
@@ -51,16 +56,12 @@ const Controls: React.FC = () => {
                     max="300"
                     step="5"
                     name="Quantity"
+                    disabled={disabledStatus}
                 />
                 Speed
                 <input
                     name="Speed"
-                    onInput={(e: React.FormEvent<HTMLInputElement>) => {
-                        setSleepTime({
-                            ...sleepTime,
-                            inputSpeed: e.currentTarget.valueAsNumber
-                        })
-                    }}
+                    onInput={handleInputSpeed}
                     type="range"
                     min="0"
                     value={sleepTime.inputSpeed}

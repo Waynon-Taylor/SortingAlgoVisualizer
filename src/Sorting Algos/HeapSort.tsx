@@ -1,9 +1,11 @@
-import { ArrayData, SortingDependencies } from "../types/types"
+import { SortingDependencies } from "../types/types"
 
-const HeapSort: React.FC<{ sortingDependencies: SortingDependencies }> = ({ sortingDependencies }) => {
-    const { array,setArray, animater, sleepTimeRef } = sortingDependencies
-    const heap = [...array]
-
+async function HeapSort(sortingDependencies: SortingDependencies) {
+    const heap = sortingDependencies.auxiliaryArray!
+    const sleepTimeRef = sortingDependencies.sleepTimeRef!
+    const animater = sortingDependencies.animater!
+    
+    return heapSort()
     async function heapify(currentIndex: number, parentIndex: number) {
 
         var largest = parentIndex; // Initialize largest as root
@@ -11,17 +13,17 @@ const HeapSort: React.FC<{ sortingDependencies: SortingDependencies }> = ({ sort
         var r = 2 * parentIndex + 2; // right = 2*i + 2
 
         // If left child is larger than root
-        if (l < currentIndex! && heap[l].height > heap[largest].height) {
+        if (l < currentIndex! && heap[l] > heap[largest]) {
             largest = l;
         }
         // If right child is larger than largest so far
-        if (r < currentIndex && heap[r].height > heap[largest].height) {
+        if (r < currentIndex && heap[r] > heap[largest]) {
             largest = r;
         }
 
         if (largest !== parentIndex) {
 
-            await animater(sleepTimeRef, largest, parentIndex)
+            await animater!(sleepTimeRef, largest, parentIndex)
 
             const swap = heap[parentIndex];
             heap[parentIndex] = heap[largest];
@@ -29,7 +31,6 @@ const HeapSort: React.FC<{ sortingDependencies: SortingDependencies }> = ({ sort
             await heapify(currentIndex, largest);
         }
     }
-
     async function heapSort() {
         const N = heap.length
 
@@ -38,21 +39,14 @@ const HeapSort: React.FC<{ sortingDependencies: SortingDependencies }> = ({ sort
 
         for (let i = N - 1; i > 0; i--) {
 
-            await animater(sleepTimeRef, 0, i)
+            await animater!(sleepTimeRef, 0, i)
             const swap = heap[0];
             heap[0] = heap[i];
             heap[i] = swap;
 
             await heapify(i, 0)
         }
-        setArray!([...heap])
     }
-
-    return (
-        <>
-            <button onClick={heapSort}>HeapSort</button>
-        </>
-    )
 }
 
 export default HeapSort
