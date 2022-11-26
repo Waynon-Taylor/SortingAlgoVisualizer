@@ -1,4 +1,4 @@
-import { IncreaseArrayQuantity } from '../types/types'
+import { IncreaseArrayQuantity, SleepTime } from '../types/types'
 
 export const increaseArrayQuantity = ({
   array,
@@ -30,4 +30,11 @@ export const setTimer = (currentTime: number) => {
     return newTime
   }
   return initialTime
+}
+
+export async function wait(sleepTimeRef: SleepTime) {
+  const pausetime = 250
+  while (sleepTimeRef.isPause)
+    await new Promise(resolve => setTimeout(() => resolve(null), pausetime))
+  return new Promise(resolve => setTimeout(() => resolve(null), sleepTimeRef.inputSpeed))
 }

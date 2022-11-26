@@ -1,7 +1,7 @@
 import './Navigation.css'
 import React, { useContext, useState, useMemo } from 'react'
 import { ArrayData, SleepTime, SortingDependencies } from '../../types/types'
-import { setTimer, increaseArrayQuantity } from '../../utils/utils'
+import { setTimer, increaseArrayQuantity, wait } from '../../utils/utils'
 import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { TimeContext } from '../../contexts/TimeContext'
 import { DisabledContext, UpdateDisabledContext } from '../../contexts/DisabledContext'
@@ -9,6 +9,7 @@ import BubbleSort from '../../Sorting Algos/BubbleSort'
 import MergeSort from '../../Sorting Algos/MergeSort'
 import QuickSort from '../../Sorting Algos/QuickSort'
 import HeapSort from '../../Sorting Algos/HeapSort'
+import { animations } from '../../animations'
 
 type Algo = (sortingDependencies: SortingDependencies) => Promise<void>
 interface AlgoState {
@@ -25,7 +26,7 @@ const initialButtonsState = [
 ]
 
 const sleepTimeRef: SleepTime = {}
-const sortingDependencies: SortingDependencies = { sleepTimeRef }
+const sortingDependencies: SortingDependencies = { sleepTimeRef, animations }
 
 const Navigation: React.FC = () => {
 
@@ -85,13 +86,6 @@ const Navigation: React.FC = () => {
         barTwoElement.backgroundColor = 'grey'
     }
 
-    async function wait(sleepTimeRef: SleepTime) {
-        const pausetime = 250
-        while (sleepTimeRef.isPause)
-            await new Promise(resolve => setTimeout(() => resolve(null), pausetime))
-        return new Promise(resolve => setTimeout(() => resolve(null), sleepTimeRef.inputSpeed))
-    }
-
     async function handleCurrentSort(CurrentSort: Algo) {
         const { newButtonsState, staleButtonsState } = generateButtonsStates(CurrentSort)
         setDisabledStatus(true)
@@ -107,7 +101,6 @@ const Navigation: React.FC = () => {
             if (CurrentSort === algoState.algo) return { ...algoState, isSorting: true }
             return { ...algoState }
         })
-
         return { newButtonsState, staleButtonsState }
     }
 

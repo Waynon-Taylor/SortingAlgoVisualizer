@@ -13,7 +13,6 @@ const BarVisualizer = () => {
     const array: ArrayData = [], currentQuantity = 1
     let quantity = Number(sessionStorage.getItem("currentQuantity"));
     if (!quantity) {
-
       quantity = 200
       sessionStorage.setItem("currentQuantity", String(quantity));
     };
