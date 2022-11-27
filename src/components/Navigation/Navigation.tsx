@@ -39,52 +39,8 @@ const Navigation: React.FC = () => {
     const [buttonsState, setButtonsState] = useState<AlgoState[]>(initialButtonsState)
 
     sortingDependencies.auxiliaryArray = useMemo(() => [...array], [array])
-    sortingDependencies.animater = animater
     sleepTimeRef.inputSpeed = setTimer(sleepTime.inputSpeed)
     sleepTimeRef.isPause = sleepTime.isPause
-
-    async function animater(
-        sleepTimeRef: SleepTime,
-        compareIndex1: number,
-        compareIndex2: number,
-        mergeSortHeight?: number,
-        mergeSortHeightIndex?: number,
-    ) {
-        const barCollection = document.getElementsByClassName('bar') as HTMLCollectionOf<HTMLElement>
-        const barOneElement = barCollection[compareIndex1].style
-        const barTwoElement = barCollection[compareIndex2].style
-
-        barOneElement.backgroundColor = 'green'
-        barTwoElement.backgroundColor = 'green'
-        await wait(sleepTimeRef)
-
-        barTwoElement.backgroundColor = 'red'
-        barOneElement.backgroundColor = 'green'
-        await wait(sleepTimeRef)
-
-        if (mergeSortHeightIndex !== undefined) {
-            barOneElement.backgroundColor = 'grey'
-            barCollection[mergeSortHeightIndex].style.backgroundColor = 'green'
-            barCollection[mergeSortHeightIndex].style.height = `${mergeSortHeight}px`
-            barCollection[mergeSortHeightIndex].title = `${mergeSortHeight}px`
-
-            await wait(sleepTimeRef)
-            barCollection[mergeSortHeightIndex].style.backgroundColor = 'grey'
-            barTwoElement.backgroundColor = 'grey'
-            return
-        } else {
-            const tempHeight = barOneElement.height
-            barOneElement.height = barTwoElement.height
-            barTwoElement.height = tempHeight
-        }
-
-        barOneElement.backgroundColor = 'red'
-        barTwoElement.backgroundColor = 'green'
-
-        await wait(sleepTimeRef)
-        barOneElement.backgroundColor = 'grey'
-        barTwoElement.backgroundColor = 'grey'
-    }
 
     async function handleCurrentSort(CurrentSort: Algo) {
         const { newButtonsState, staleButtonsState } = generateButtonsStates(CurrentSort)

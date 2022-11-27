@@ -1,10 +1,10 @@
 import { SortingDependencies } from "../types/types"
-
+import  {wait} from '../utils/utils'
 async function HeapSort(sortingDependencies: SortingDependencies) {
     const heap = sortingDependencies.auxiliaryArray!
-    const sleepTimeRef = sortingDependencies.sleepTimeRef!
-    const animater = sortingDependencies.animater!
-    
+    const sleepTimeRef = sortingDependencies.sleepTimeRef
+    const animations = sortingDependencies.animations
+
     return heapSort()
     async function heapify(currentIndex: number, parentIndex: number) {
 
@@ -22,8 +22,8 @@ async function HeapSort(sortingDependencies: SortingDependencies) {
         }
 
         if (largest !== parentIndex) {
-
-            await animater!(sleepTimeRef, largest, parentIndex)
+            const currentIndices = [largest, parentIndex]
+            await animations.animater(sleepTimeRef, currentIndices)
 
             const swap = heap[parentIndex];
             heap[parentIndex] = heap[largest];
@@ -39,7 +39,13 @@ async function HeapSort(sortingDependencies: SortingDependencies) {
 
         for (let i = N - 1; i > 0; i--) {
 
-            await animater!(sleepTimeRef, 0, i)
+            const { color3 } = animations.colors
+            const currentIndices = [0, i]
+            await animations.compareValues(sleepTimeRef, currentIndices, color3, color3)
+            animations.swapValues(currentIndices)
+            await wait(sleepTimeRef)
+            animations.resetColorValues(currentIndices)
+
             const swap = heap[0];
             heap[0] = heap[i];
             heap[i] = swap;

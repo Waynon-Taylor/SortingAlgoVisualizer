@@ -1,78 +1,86 @@
 import { SleepTime } from './types/types'
 import { wait } from './utils/utils'
 
-interface CompareIndex {
-    index1: number
-    index2: number
-}
+type CurrentIndices = number[]
 
 type color1 = 'green'
 type color2 = 'red'
-type colorOptions = color1 | color2
+type color3 = 'yellow'
+type colorOptions = color1 | color2 | color3
 
 export const animations = {
 
     barCollection: document.getElementsByClassName('bar') as HTMLCollectionOf<HTMLElement>,
-    colors: { color1: 'green' as colorOptions, color2: 'red' as colorOptions, },
+    colors: {
+        color1: 'green' as color1,
+        color2: 'red' as color2,
+        color3: 'yellow' as color3
+    },
 
-    selectBarStyleProp: function (index1: number, index2: number) {
+    selectBarStyleProp: function (currentIndices: CurrentIndices) {
+        const [index1, index2] = currentIndices
         const barOneElement = this.barCollection[index1].style
         const barTwoElement = this.barCollection[index2].style
         return { barOneElement, barTwoElement }
     },
 
-    compareValues: async function (sleepTimeRef: SleepTime,
-        compareIndex: CompareIndex,
+    compareValues: async function (
+        sleepTimeRef: SleepTime,
+        currentIndices: CurrentIndices,
         color1: colorOptions, color2: colorOptions) {
 
-        const { index1, index2 } = compareIndex
-        const { barOneElement, barTwoElement } = this.selectBarStyleProp(index1, index2)
-
+        const { barOneElement, barTwoElement } = this.selectBarStyleProp(currentIndices)
         barOneElement.backgroundColor = color1
         barTwoElement.backgroundColor = color2
         await wait(sleepTimeRef)
     },
 
-    resetColorValues: function (index1: number, index2: number) {
-        const { barOneElement, barTwoElement } = this.selectBarStyleProp(index1, index2)
+    resetColorValues: function (currentIndices: CurrentIndices,) {
+        const { barOneElement, barTwoElement } = this.selectBarStyleProp(currentIndices)
         barOneElement.backgroundColor = 'grey'
         barTwoElement.backgroundColor = 'grey'
     },
 
-    swapValues: function (index1: number, index2: number) {
-        const { barOneElement, barTwoElement } = this.selectBarStyleProp(index1, index2)
+    swapValues: function (currentIndices: CurrentIndices) {
+        const { barOneElement, barTwoElement } = this.selectBarStyleProp(currentIndices)
         const barOneHeight = barOneElement.height
         barOneElement.height = barTwoElement.height
         barTwoElement.height = barOneHeight
     },
 
-    overWriteValue: function (
-        index1: number, index2: number,
+    overWriteValue: async function (
+        sleepTimeRef: SleepTime,
+        currentIndices: CurrentIndices,
         overWriteIndex: number, overWriteHeight: number) {
-        this.resetColorValues(index1, overWriteIndex)
+        const [index1, index2] = currentIndices
+
+        this.resetColorValues([index1, index1])
+        this.barCollection[overWriteIndex].style.backgroundColor = this.colors.color1
         this.barCollection[overWriteIndex].style.height = `${overWriteHeight}px`
-        this.resetColorValues(index2, overWriteIndex)
+        
+        await wait(sleepTimeRef)
+        this.resetColorValues([index2, overWriteIndex])
     },
 
     animater: async function (
         sleepTimeRef: SleepTime,
-        index1: number, index2: number,
+        currentIndices: CurrentIndices,
         overWriteIndex?: number, overWriteHeight?: number) {
 
-        const compareIndex = { index1, index2 }
+        const color1 = this.colors.color1, color2 = this.colors.color2
         //When comapring both values or element has the same color green.
-        await this.compareValues(sleepTimeRef, compareIndex, this.colors.color1, this.colors.color1)
+        await this.compareValues(sleepTimeRef, currentIndices, color1, color1)
         //When comaprison has resolve animationValue2 will be red
         //While animationValue1 will remain green.
-        await this.compareValues(sleepTimeRef, compareIndex, this.colors.color1, this.colors.color2)
+        await this.compareValues(sleepTimeRef, currentIndices, color1, color2)
 
         //The overWriteValue() method will run specificly for merge sort only.
         if (overWriteIndex !== undefined && overWriteHeight !== undefined)
-            return this.overWriteValue(index1, index2, overWriteIndex, overWriteHeight);
-
-        this.swapValues(index1, index2)
-        await this.compareValues(sleepTimeRef, compareIndex, this.colors.color2, this.colors.color1)
-        this.resetColorValues(index1, index2)
+            return this.overWriteValue(sleepTimeRef, currentIndices, overWriteIndex, overWriteHeight);
+        ///
+        this.swapValues(currentIndices)
+        await this.compareValues(sleepTimeRef, currentIndices, color2, color1)
+        this.resetColorValues(currentIndices)
     }
 }
 

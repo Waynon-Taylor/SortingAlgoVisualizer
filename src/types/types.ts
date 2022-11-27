@@ -14,7 +14,6 @@ export interface SortingDependencies {
     animations: Animations
     sleepTimeRef: SleepTime
     auxiliaryArray?: ArrayData
-    animater?: Animater
 }
 
 export interface IncreaseArrayQuantity {

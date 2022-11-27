@@ -3,8 +3,8 @@ import { ArrayData, SortingDependencies } from "../types/types"
 async function MergeSort (sortingDependencies: SortingDependencies){
 
     const array = sortingDependencies.auxiliaryArray!
-    const sleepTimeRef = sortingDependencies.sleepTimeRef!
-    const animater = sortingDependencies.animater!
+    const sleepTimeRef = sortingDependencies.sleepTimeRef
+    const animations = sortingDependencies.animations
 
     return mergeSortHelper(array, 0, array.length - 1, array.slice())
 
@@ -31,23 +31,25 @@ async function MergeSort (sortingDependencies: SortingDependencies){
         let j = middleIdx + 1;
 
         while (i <= middleIdx && j <= endIdx) {
+            let currentIndices = [i, j]
 
             if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-                await animater!(sleepTimeRef, i, j, auxiliaryArray[i], k)
+                await animations.animater(sleepTimeRef, currentIndices, k, auxiliaryArray[i])
                 mainArray[k++] = auxiliaryArray[i++];
-
+                
             } else {
-                await animater!(sleepTimeRef, j, i, auxiliaryArray[j], k)
+                currentIndices = [j, i]
+                await animations.animater(sleepTimeRef, currentIndices,k , auxiliaryArray[j])
                 mainArray[k++] = auxiliaryArray[j++];
             }
         }
 
         while (i <= middleIdx) {
-            await animater!(sleepTimeRef, i, i, auxiliaryArray[i], k)
+            await animations.animater(sleepTimeRef, [i, i], k,auxiliaryArray[i] )
             mainArray[k++] = auxiliaryArray[i++];
         }
         while (j <= endIdx) {
-            await animater!(sleepTimeRef, j, j, auxiliaryArray[j], k)
+            await animations.animater(sleepTimeRef, [j, j], k,auxiliaryArray[j] )
             mainArray[k++] = auxiliaryArray[j++];
         }
     }
