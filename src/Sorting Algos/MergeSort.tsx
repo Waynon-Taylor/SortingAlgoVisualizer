@@ -2,7 +2,7 @@ import { ArrayData, SortingDependencies } from "../types/types"
 
 async function MergeSort (sortingDependencies: SortingDependencies){
 
-    const array = sortingDependencies.auxiliaryArray!
+    const array = sortingDependencies.auxiliaryArray
     const sleepTimeRef = sortingDependencies.sleepTimeRef
     const animations = sortingDependencies.animations
 

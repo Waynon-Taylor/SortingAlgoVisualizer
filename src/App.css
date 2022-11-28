@@ -1,12 +1,9 @@
-.barsContainer {
-    display: flex;
-    gap: 5px;
+*, ::before, ::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.bar {
-    width: 100px;
-}
-
-.default-bgColor {
-    background: grey;
+button {
+    all: unset;
 }

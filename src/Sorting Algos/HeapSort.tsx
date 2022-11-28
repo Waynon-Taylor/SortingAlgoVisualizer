@@ -1,7 +1,7 @@
 import { SortingDependencies } from "../types/types"
 import  {wait} from '../utils/utils'
 async function HeapSort(sortingDependencies: SortingDependencies) {
-    const heap = sortingDependencies.auxiliaryArray!
+    const heap = sortingDependencies.auxiliaryArray
     const sleepTimeRef = sortingDependencies.sleepTimeRef
     const animations = sortingDependencies.animations
 

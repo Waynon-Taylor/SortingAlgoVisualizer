@@ -1,7 +1,7 @@
 import { SortingDependencies } from '../types/types'
 
 async function BubbleSort(sortingDependencies: SortingDependencies) {
-    const tempArray = sortingDependencies.auxiliaryArray!
+    const tempArray = sortingDependencies.auxiliaryArray
     const sleepTimeRef = sortingDependencies.sleepTimeRef
     const animations = sortingDependencies.animations
 

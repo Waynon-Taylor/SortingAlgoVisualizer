@@ -1,10 +1,11 @@
-import React, { useEffect, useContext } from 'react';
-import { ArrayData } from '../../../types/types'
-import { increaseArrayQuantity } from '../../../utils/utils'
-import { ArrayDataContext, UpdateArrayDataContext } from '../../../contexts/ArrayContex'
+import './Visualizer.css'
+import { useEffect, useContext } from 'react';
+import { ArrayData } from '../../types/types'
+import { increaseArrayQuantity } from '../../utils/utils'
+import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { v4 as ID } from 'uuid'
 
-const BarVisualizer = () => {
+const Visualizer = () => {
   const array = useContext(ArrayDataContext)
   const setArray = useContext(UpdateArrayDataContext)
 
@@ -42,4 +43,4 @@ const BarVisualizer = () => {
     </>
   );
 }
-export default BarVisualizer;
+export default Visualizer;

@@ -1,0 +1,12 @@
+.barsContainer {
+    display: flex;
+    gap: 5px;
+}
+
+.bar {
+    width: 100px;
+}
+
+.default-bgColor {
+    background: grey;
+}

@@ -2,9 +2,9 @@ import './App.css';
 import ArrayProvider from './contexts/ArrayContex'
 import TimeProvider from './contexts/TimeContext'
 import DisabledProvider from './contexts/DisabledContext'
-import Navigation from './components/Navigation/Navigation'
-import Controls from './components/Controls'
-import BarVisualizer from './components/Visualizers/BarVisualizer/BarVisualizer'
+import SortOptions from './components/SortOptions/SortOptions'
+import Controls from './components/Controls/Controls'
+import Visualizer from './components/Visualizer/Visualizer'
 
 const App = () => {
     return (
@@ -12,11 +12,11 @@ const App = () => {
             <ArrayProvider>
                 <TimeProvider>
                     <DisabledProvider>
-                        <Navigation />
+                        <SortOptions />
                         <Controls />
                     </DisabledProvider>
                 </TimeProvider>
-                <BarVisualizer />
+                <Visualizer />
             </ArrayProvider>
         </>
     )

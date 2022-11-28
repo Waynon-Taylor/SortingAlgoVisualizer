@@ -13,7 +13,7 @@ export type Animater = (
 export interface SortingDependencies {
     animations: Animations
     sleepTimeRef: SleepTime
-    auxiliaryArray?: ArrayData
+    auxiliaryArray: ArrayData
 }
 
 export interface IncreaseArrayQuantity {

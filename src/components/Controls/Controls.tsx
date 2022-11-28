@@ -1,8 +1,9 @@
+import './Controls.css'
 import { FormEvent, useContext } from 'react';
-import { ArrayDataContext, UpdateArrayDataContext } from '../contexts/ArrayContex'
-import { UpdateTimeContext, TimeContext } from '../contexts/TimeContext'
-import { DisabledContext } from '../contexts/DisabledContext'
-import { increaseArrayQuantity } from '../utils/utils'
+import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
+import { UpdateTimeContext, TimeContext } from '../../contexts/TimeContext'
+import { DisabledContext } from '../../contexts/DisabledContext'
+import { increaseArrayQuantity } from '../../utils/utils'
 
 const Controls: React.FC = () => {
     const arrayData = useContext(ArrayDataContext)
@@ -44,27 +45,31 @@ const Controls: React.FC = () => {
 
     return (
         <>
-            <div>
+            <div id='controls-container'>
                 <button onClick={() => window.location.reload()}>Shuffle</button>
                 <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
-                Quantity
+
+                <label htmlFor="Quantity">Quantity</label>
                 <input
                     onInput={handleInpuitQuantity}
+                    disabled={disabledStatus}
                     type="range"
+                    name="Quantity"
+                    id="Quantity"
                     min="10"
                     value={arrayData.length}
                     max="300"
                     step="5"
-                    name="Quantity"
-                    disabled={disabledStatus}
                 />
-                Speed
+
+                <label htmlFor="Speed">Speed</label>
                 <input
-                    name="Speed"
                     onInput={handleInputSpeed}
-                    type="range"
-                    min="0"
                     value={sleepTime.inputSpeed}
+                    type="range"
+                    name="Speed"
+                    id="Speed"
+                    min="0"
                     max="2000"
                     step="400"
                 />

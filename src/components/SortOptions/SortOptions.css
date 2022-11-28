@@ -1,0 +1,47 @@
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+
+nav #options-container {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    align-items: center;
+    font-size: min(5.3vw, 25.5px);
+    padding: 1em 0;
+}
+
+button.sort-buttons {
+    position: relative;
+    cursor: pointer;
+    padding: 5px 0.4em;
+    color: white;
+}
+
+button.sort-buttons.is-sorting::after {
+    content: '';
+    position: absolute;
+    top: 1.7em;
+    left: 3px;
+    display: block;
+    width: 95%;
+    outline: solid 2.3px rgba(20, 255, 0, 1);
+}
+
+.is-sorting {
+    transform: translatey(-10px);
+}
+
+@media screen and (min-width: 550px) {
+
+    nav #options-container {
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        font-size: min(3vw, 40.5px);
+        padding: 0;
+        height: 100px;
+    }
+}

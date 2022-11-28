@@ -2,7 +2,7 @@ import { SortingDependencies } from "../types/types"
 import { wait } from '../utils/utils'
 async function QuickSort(sortingDependencies: SortingDependencies) {
 
-    const auxiliaryArray = sortingDependencies.auxiliaryArray!
+    const auxiliaryArray = sortingDependencies.auxiliaryArray
     const sleepTimeRef = sortingDependencies.sleepTimeRef
     const animations = sortingDependencies.animations
 
