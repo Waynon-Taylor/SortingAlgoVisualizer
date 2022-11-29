@@ -46,36 +46,46 @@ const Controls: React.FC = () => {
     return (
         <>
             <div id='controls-container'>
-                <button onClick={() => window.location.reload()}>Shuffle</button>
-                <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
+                <div id='range-container'>
 
-                <label htmlFor="Quantity">Quantity</label>
-                <input
-                    onInput={handleInpuitQuantity}
-                    disabled={disabledStatus}
-                    type="range"
-                    name="Quantity"
-                    id="Quantity"
-                    min="10"
-                    value={arrayData.length}
-                    max="300"
-                    step="5"
-                />
+                    <div id='rangeLables'>
+                        <label htmlFor="Quantity">Quantity</label>
+                        <label htmlFor="Speed">Speed</label>
+                    </div>
 
-                <label htmlFor="Speed">Speed</label>
-                <input
-                    onInput={handleInputSpeed}
-                    value={sleepTime.inputSpeed}
-                    type="range"
-                    name="Speed"
-                    id="Speed"
-                    min="0"
-                    max="2000"
-                    step="400"
-                />
+                    <div id='range-inputs-container'>
+                        <input
+                            className={`${disabledStatus ? 'disabledBorderClr' : ''} `}
+                            onInput={handleInpuitQuantity}
+                            disabled={disabledStatus}
+                            type="range"
+                            name="Quantity"
+                            id="Quantity"
+                            min="10"
+                            value={arrayData.length}
+                            max="300"
+                        />
+
+                        <input
+                            onInput={handleInputSpeed}
+                            value={sleepTime.inputSpeed}
+                            type="range"
+                            name="Speed"
+                            id="Speed"
+                            min="0"
+                            max="2000"
+                            step="400"
+                        />
+                    </div>
+                </div>
+                <div  id='shuffle-freeze-flip-view-container'>
+                    <div id='shuffle-freeze-container'>
+                        <button onClick={() => window.location.reload()}>Shuffle</button>
+                        <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
+                    </div>
+                    <span className='flip-view'>Flip View</span>
+                </div>
             </div>
-
-            <p>Flip View</p>
         </>
     )
 }

@@ -1,3 +1,134 @@
-#controls-container button{
-    background-color: rgb(0, 98, 235);
+:root {
+    --greyClr: #D9D9D9;
+    --bluClr: #0047FF;
+    --rangeBorderStyle: solid 3px var(--greyClr);
+    --controlsGap: 15px;
+}
+
+#controls-container input[type="range"] {
+    --trackWidth: 100%;
+    --trackHeight: 23px;
+
+    --thumbBorderRadius: 190px;
+    --thumbBorderStyle: solid 5px var(--bluClr);
+    --thumbHeight: 40.59px;
+    --thumbWidth: 40.59px;
+    --centerThumbVal: calc((var(--trackHeight)/2) - (var(--thumbHeight)/2))
+}
+
+#controls-container input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+}
+
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type="range"]::-webkit-slider-runnable-track {
+    background: var(--greyClr);
+    height: var(--trackHeight);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    margin-top: var(--centerThumbVal);
+    /* Centers thumb on the track */
+    background: var(--greyClr);
+    border-radius: var(--thumbBorderRadius);
+    border: var(--thumbBorderStyle);
+    height: var(--thumbHeight);
+    width: var(--thumbWidth);
+}
+
+/******** Firefox ********/
+input[type="range"]::-moz-range-track {
+    background: var(--greyClr);
+    height: var(--trackHeight);
+}
+
+input[type="range"]::-moz-range-thumb {
+    background: var(--greyClr);
+    border-radius: var(--thumbBorderRadius);
+    border: var(--thumbBorderStyle);
+    height: calc(var(--thumbHeight) - 10px);
+    width: calc(var(--thumbWidth) - 10px);
+}
+
+/***************/
+input[type="range"].disabledBorderClr::-moz-range-thumb {
+    border-color: var(--bluClr);
+}
+
+input[type="range"].disabledBorderClr::-webkit-slider-thumb {
+    border-color: var(--bluClr);
+}
+
+#controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--controlsGap);
+    padding: 15px;
+    font-size: min(5vw, 25px);
+}
+
+#range-container {
+    display: flex;
+    gap: 7px;
+    border: var(--rangeBorderStyle);
+    width: 100%;
+}
+
+#shuffle-freeze-flip-view-container, #shuffle-freeze-container {
+    display: flex;
+    gap: var(--controlsGap);
+}
+
+#range-inputs-container, #rangeLables {
+    display: flex;
+    flex-direction: column;
+}
+
+#rangeLables, #range-inputs-container {
+    padding: 10px;
+}
+
+#rangeLables {
+    justify-content: space-between;
+    border-right: var(--rangeBorderStyle);
+}
+
+#range-inputs-container {
+    gap: 30px;
+    border-left: var(--rangeBorderStyle);
+    width: 100%;
+}
+
+#shuffle-freeze-container {
+    justify-content: space-between;
+}
+
+#shuffle-freeze-container button {
+    background: var(--bluClr);
+    color: white;
+    padding: 7px 1.6em;
+    text-align: center;
+    height: 28px;
+}
+
+@media screen and (min-width: 550px) {
+    #controls-container {
+        flex-direction: row;
+        font-size: min(3vw, 25px);
+    }
+
+    #range-container {
+        width: 400px;
+    }
+
+    #shuffle-freeze-container {
+        flex-direction: column;
+    }
 }

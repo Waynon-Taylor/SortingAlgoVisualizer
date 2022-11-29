@@ -37,12 +37,12 @@ export const animations = {
 
     resetColorValues: function (currentIndices: CurrentIndices,) {
         const { barOneElement, barTwoElement } = this.selectBarElement(currentIndices)
-        barOneElement.style.backgroundColor = 'grey'
-        barTwoElement.style.backgroundColor = 'grey'
+        barOneElement.style.backgroundColor = 'black'
+        barTwoElement.style.backgroundColor = 'black'
     },
 
     updateInnerText: function (height: string) {
-        if (this.barCollection.length <= 30) {
+        if (this.barCollection.length <= 15) {
             const px = 2
             return height.substring(0, height.length - px)
         }
@@ -57,8 +57,8 @@ export const animations = {
         barOneElement.style.height = barTwoHeight
         barTwoElement.style.height = barOneHeight
         //
-        barOneElement.innerText = this.updateInnerText(barOneHeight)
-        barTwoElement.innerText = this.updateInnerText(barTwoHeight)
+        barOneElement.innerText = this.updateInnerText(barTwoHeight)
+        barTwoElement.innerText = this.updateInnerText(barOneHeight)
     },
 
     overWriteValue: async function (

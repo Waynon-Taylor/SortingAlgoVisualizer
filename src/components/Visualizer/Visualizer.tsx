@@ -26,7 +26,7 @@ const Visualizer = () => {
   return (
     <>
       <section>
-        <p>{`quantity: ${array.length}`}</p>
+        <p>{`Bars: ${array.length}`}</p>
         <div className='barsContainer'>
           {array.map((height) => {
             return (
@@ -35,7 +35,7 @@ const Visualizer = () => {
                 title={`${height}px`}
                 className='bar default-bgColor '
                 style={{ height: `${height}px` }}>
-                {array.length <= 30 ? `${height}` : null}
+                {array.length <= 15 ? `${height}` : null}
               </div>)
           })}
         </div>
