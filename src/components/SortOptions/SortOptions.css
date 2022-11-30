@@ -8,6 +8,7 @@ nav #options-container {
     width: 70%;
     display: flex;
     flex-wrap: wrap;
+    /* justify-content: center; */
     align-content: space-around;
     align-items: center;
     font-size: min(5.3vw, 25.5px);
@@ -17,7 +18,7 @@ nav #options-container {
 button.sort-buttons {
     position: relative;
     cursor: pointer;
-    padding: 5px 0.4em;
+    padding: 5px 0.5em;
     color: white;
 }
 

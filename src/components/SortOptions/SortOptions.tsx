@@ -10,6 +10,7 @@ import MergeSort from '../../Sorting Algos/MergeSort'
 import QuickSort from '../../Sorting Algos/QuickSort'
 import HeapSort from '../../Sorting Algos/HeapSort'
 import { animations } from '../../animations'
+import { v4 as ID } from 'uuid'
 
 type CurrentSort = (sortingDependencies: SortingDependencies) => Promise<void>
 
@@ -19,8 +20,8 @@ const initialButtonsState = [
     { name: 'QuickSort', sortType: QuickSort, isSorting: false },
     { name: 'HeapSort', sortType: HeapSort, isSorting: false }
 ]
-
 const sleepTimeRef: SleepTime = {}
+const delayRef: SleepTime = { isPause: sleepTimeRef.isPause, inputSpeed: 500 }
 const sortingDependencies: SortingDependencies = { auxiliaryArray: [], sleepTimeRef, animations }
 
 const SortOptions: React.FC = () => {
@@ -30,7 +31,6 @@ const SortOptions: React.FC = () => {
     const sleepTime = useContext(TimeContext)
     const disabledStatus = useContext(DisabledContext)
     const setDisabledStatus = useContext(UpdateDisabledContext)
-
     const [buttonsState, setButtonsState] = useState(initialButtonsState)
 
     sortingDependencies.auxiliaryArray = useMemo(() => [...array], [array])
@@ -44,6 +44,7 @@ const SortOptions: React.FC = () => {
         await currentSort(sortingDependencies)
         setButtonsState(initialButtonsState)
         setDisabledStatus(false)
+        setArray!(sortingDependencies.auxiliaryArray)
     }
 
     function generateButtonsStates(currentSort: CurrentSort) {
@@ -62,16 +63,16 @@ const SortOptions: React.FC = () => {
         handleAutoSort()
     }
 
+    delayRef.isPause = sortingDependencies.sleepTimeRef.isPause
     async function NextSort(currentSort: CurrentSort) {
-        const delay: SleepTime = { ...sortingDependencies.sleepTimeRef!, inputSpeed: 500 }
         const { newButtonsState, initialButtonsState } = generateButtonsStates(currentSort)
 
         shuffle()
         setDisabledStatus(true)
         setButtonsState(newButtonsState)
-        await wait(delay)
+        await wait(delayRef)
         await currentSort(sortingDependencies)
-        await wait(delay)
+        await wait(delayRef)
         setButtonsState(initialButtonsState)
     }
 
@@ -82,7 +83,7 @@ const SortOptions: React.FC = () => {
         increaseArrayQuantity({ array, currentQuantity, quantity })
         setArray!(array)
     }
-
+    console.log('Sortrender')
     return (
         <>
             <nav>
@@ -91,6 +92,7 @@ const SortOptions: React.FC = () => {
                         buttonsState.map(CurrentSortState => {
                             return (
                                 <button
+                                    key={ID()}
                                     disabled={disabledStatus}
                                     className={`${CurrentSortState.isSorting ? 'is-sorting' : ''} sort-buttons`}
                                     onClick={() => handleCurrentSort(CurrentSortState.sortType)}>

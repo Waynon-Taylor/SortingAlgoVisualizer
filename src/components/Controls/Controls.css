@@ -1,6 +1,7 @@
 :root {
     --greyClr: #D9D9D9;
     --bluClr: #0047FF;
+    --disabledBluClr: #648cf2;
     --rangeBorderStyle: solid 3px var(--greyClr);
     --controlsGap: 15px;
 }
@@ -43,6 +44,10 @@ input[type="range"]::-webkit-slider-thumb {
     width: var(--thumbWidth);
 }
 
+input[type="range"].disabledBorderClr::-webkit-slider-thumb {
+    border-color: var(--disabledBluClr);
+}
+
 /******** Firefox ********/
 input[type="range"]::-moz-range-track {
     background: var(--greyClr);
@@ -57,14 +62,11 @@ input[type="range"]::-moz-range-thumb {
     width: calc(var(--thumbWidth) - 10px);
 }
 
-/***************/
 input[type="range"].disabledBorderClr::-moz-range-thumb {
-    border-color: var(--bluClr);
+    border-color: var(--disabledBluClr);
 }
 
-input[type="range"].disabledBorderClr::-webkit-slider-thumb {
-    border-color: var(--bluClr);
-}
+/*********/
 
 #controls-container {
     display: flex;
@@ -113,9 +115,15 @@ input[type="range"].disabledBorderClr::-webkit-slider-thumb {
 #shuffle-freeze-container button {
     background: var(--bluClr);
     color: white;
-    padding: 7px 1.6em;
-    text-align: center;
+    padding: 7px 0;
     height: 28px;
+    width: 5.6em;
+    text-align: center;
+    cursor: pointer;
+}
+
+#shuffle-freeze-container button, .flip-view {
+    cursor: pointer;
 }
 
 @media screen and (min-width: 550px) {
@@ -130,5 +138,9 @@ input[type="range"].disabledBorderClr::-webkit-slider-thumb {
 
     #shuffle-freeze-container {
         flex-direction: column;
+    }
+
+    #shuffle-freeze-container button {
+        width: 4.6em;
     }
 }

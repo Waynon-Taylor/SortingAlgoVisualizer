@@ -1,26 +1,35 @@
 import './Controls.css'
-import { FormEvent, useContext } from 'react';
+import { FormEvent, useContext, useState, useEffect } from 'react';
 import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { UpdateTimeContext, TimeContext } from '../../contexts/TimeContext'
 import { DisabledContext } from '../../contexts/DisabledContext'
 import { increaseArrayQuantity } from '../../utils/utils'
 
 const Controls: React.FC = () => {
+
+    let currentFlipViewStatus = JSON.parse(sessionStorage.getItem('flipViewStatus')!)
+    if (currentFlipViewStatus === null) {
+        currentFlipViewStatus = false
+        sessionStorage.setItem('flipViewStatus', String(currentFlipViewStatus))
+    }
+
+    const [flipViewStatus, setFlipView] = useState(currentFlipViewStatus)
+
     const arrayData = useContext(ArrayDataContext)
     const setArray = useContext(UpdateArrayDataContext)
     const sleepTime = useContext(TimeContext)
     const setSleepTime = useContext(UpdateTimeContext)
     const disabledStatus = useContext(DisabledContext)
 
-    const handleFreeze = () => {
-        if (!sleepTime.isPause) {
-            setSleepTime({ ...sleepTime, isPause: true })
+    useEffect(() => {
+        const barsContainer = document.querySelector('.barsContainer')
+        if (flipViewStatus) {
+            barsContainer!.classList.add('flipBarsContainer')
             return
         }
-        setSleepTime({ ...sleepTime, isPause: false })
-    }
+        barsContainer!.classList.remove('flipBarsContainer')
+    }, [flipViewStatus])
 
-    //handle Quantity
     function handleInpuitQuantity(e: FormEvent<HTMLInputElement>) {
         const array = [...arrayData]
         const currentQuantity = Number(sessionStorage.getItem("currentQuantity"));
@@ -43,6 +52,24 @@ const Controls: React.FC = () => {
         setSleepTime(currentSleepTime)
     }
 
+    const handleFreeze = () => {
+        if (!sleepTime.isPause) {
+            setSleepTime({ ...sleepTime, isPause: true })
+            return
+        }
+        setSleepTime({ ...sleepTime, isPause: false })
+    }
+
+    const handleFlipView = () => {
+        if (!flipViewStatus) {
+            sessionStorage.setItem('flipViewStatus', String(!flipViewStatus))
+            setFlipView(!flipViewStatus)
+            return
+        }
+        sessionStorage.setItem('flipViewStatus', String(!flipViewStatus))
+        setFlipView(!flipViewStatus)
+    }
+
     return (
         <>
             <div id='controls-container'>
@@ -63,7 +90,7 @@ const Controls: React.FC = () => {
                             id="Quantity"
                             min="10"
                             value={arrayData.length}
-                            max="300"
+                            max="250"
                         />
 
                         <input
@@ -78,12 +105,12 @@ const Controls: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div  id='shuffle-freeze-flip-view-container'>
+                <div id='shuffle-freeze-flip-view-container'>
                     <div id='shuffle-freeze-container'>
                         <button onClick={() => window.location.reload()}>Shuffle</button>
                         <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
                     </div>
-                    <span className='flip-view'>Flip View</span>
+                    <span onClick={handleFlipView} className='flip-view'>Flip View</span>
                 </div>
             </div>
         </>
