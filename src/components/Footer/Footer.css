@@ -1,0 +1,13 @@
+#footer {
+    font-size:min(4vw, 25px);
+    margin-top: 1em;
+    padding: 2em 0;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+}
+
+#footer p a {
+    color: white;
+    text-decoration: none;
+}

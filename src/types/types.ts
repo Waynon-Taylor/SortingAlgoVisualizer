@@ -1,14 +1,8 @@
 import { Animations} from '../animations'
+
 export type ArrayData = number[]
 
-export interface SleepTime { inputSpeed?: number, isPause?: boolean }
-export type Animater = (
-    sleepTimeRef: SleepTime,
-    compareIndex1: number,
-    compareIndex2: number,
-    mergeSortHeight?: number,
-    mergeSortHeightIndex?: number,
-) => Promise<void>
+export interface SleepTime { inputSpeed: number, isPause: boolean }
 
 export interface SortingDependencies {
     animations: Animations

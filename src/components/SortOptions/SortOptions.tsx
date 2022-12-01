@@ -20,7 +20,7 @@ const initialButtonsState = [
     { name: 'QuickSort', sortType: QuickSort, isSorting: false },
     { name: 'HeapSort', sortType: HeapSort, isSorting: false }
 ]
-const sleepTimeRef: SleepTime = {}
+const sleepTimeRef: SleepTime = { isPause: false, inputSpeed: 0 }
 const delayRef: SleepTime = { isPause: sleepTimeRef.isPause, inputSpeed: 500 }
 const sortingDependencies: SortingDependencies = { auxiliaryArray: [], sleepTimeRef, animations }
 

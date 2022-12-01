@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { SleepTime } from '../types/types'
+import {evaluateSessionStorageValue} from '../utils/utils'
 
 let handleInpuitSpeed = (sleepTime: SleepTime) => { }
-const currentSleepTime = JSON.parse(sessionStorage.getItem("currentSleepTime")!)
-if (!currentSleepTime)
-    sessionStorage.setItem("currentSleepTime", JSON.stringify({ inputSpeed: 2000, isPause: false }));
+let initialSleepTime = { inputSpeed: 2000, isPause: false } 
+initialSleepTime = evaluateSessionStorageValue("currentSleepTime", initialSleepTime)
 
 export const UpdateTimeContext = React.createContext(handleInpuitSpeed)
-export const TimeContext = React.createContext(currentSleepTime)
+export const TimeContext = React.createContext(initialSleepTime)
 
 const TimeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [sleepTime, setSleepTime] = useState(currentSleepTime)
+    const [sleepTime, setSleepTime] = useState(initialSleepTime)
 
     handleInpuitSpeed = (sleepTime: SleepTime) => {
         setSleepTime(sleepTime)

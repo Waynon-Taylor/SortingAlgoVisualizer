@@ -1,5 +1,16 @@
 import { IncreaseArrayQuantity, SleepTime } from '../types/types'
 
+
+export function evaluateSessionStorageValue<T>(key: string, InitializeValue: T): T {
+  let value = sessionStorage.getItem(key)
+  if (typeof value === 'string') {
+    return JSON.parse(value)
+  }
+  console.log(key, JSON.stringify(InitializeValue))
+  sessionStorage.setItem(key, JSON.stringify(InitializeValue))
+  return InitializeValue
+}
+
 export const increaseArrayQuantity = ({
   array,
   currentQuantity,

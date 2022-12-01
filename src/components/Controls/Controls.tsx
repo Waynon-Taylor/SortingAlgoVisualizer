@@ -1,18 +1,12 @@
 import './Controls.css'
-import { FormEvent, useContext, useState, useEffect } from 'react';
+import { FormEvent, useContext, useState, useEffect, useMemo } from 'react';
 import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { UpdateTimeContext, TimeContext } from '../../contexts/TimeContext'
 import { DisabledContext } from '../../contexts/DisabledContext'
-import { increaseArrayQuantity } from '../../utils/utils'
+import { increaseArrayQuantity, evaluateSessionStorageValue } from '../../utils/utils'
 
 const Controls: React.FC = () => {
-
-    let currentFlipViewStatus = JSON.parse(sessionStorage.getItem('flipViewStatus')!)
-    if (currentFlipViewStatus === null) {
-        currentFlipViewStatus = false
-        sessionStorage.setItem('flipViewStatus', String(currentFlipViewStatus))
-    }
-
+    const currentFlipViewStatus = useMemo(() => (evaluateSessionStorageValue('flipViewStatus', false)), [])
     const [flipViewStatus, setFlipView] = useState(currentFlipViewStatus)
 
     const arrayData = useContext(ArrayDataContext)

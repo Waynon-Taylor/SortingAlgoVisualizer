@@ -126,6 +126,11 @@ input[type="range"].disabledBorderClr::-moz-range-thumb {
     cursor: pointer;
 }
 
+.flip-view {
+   height: max-content;
+   padding: 0.2em;
+}
+
 @media screen and (min-width: 550px) {
     #controls-container {
         flex-direction: row;
