@@ -35,13 +35,13 @@ export const animations = {
         await wait(sleepTimeRef)
     },
 
-    resetColorValues: function (currentIndices: CurrentIndices,) {
+    resetColorValues: function (currentIndices: CurrentIndices) {
         const { barOneElement, barTwoElement } = this.selectBarElement(currentIndices)
         barOneElement.style.backgroundColor = 'black'
         barTwoElement.style.backgroundColor = 'black'
     },
 
-    updateInnerText: function (height: string) {
+    updateBarInnerText: function (height: string) {
         if (this.barCollection.length <= 15) {
             const px = 2
             return height.substring(0, height.length - px)
@@ -57,8 +57,8 @@ export const animations = {
         barOneElement.style.height = barTwoHeight
         barTwoElement.style.height = barOneHeight
         //
-        barOneElement.innerText = this.updateInnerText(barTwoHeight)
-        barTwoElement.innerText = this.updateInnerText(barOneHeight)
+        barOneElement.innerText = this.updateBarInnerText(barTwoHeight)
+        barTwoElement.innerText = this.updateBarInnerText(barOneHeight)
     },
 
     overWriteValue: async function (
@@ -71,7 +71,7 @@ export const animations = {
         const overWriteElement = this.barCollection[overWriteIndex]
         overWriteElement.style.backgroundColor = this.colors.color1
         overWriteElement.style.height = `${overWriteHeight}px`
-        overWriteElement.innerText = this.updateInnerText(`${overWriteHeight}px`)
+        overWriteElement.innerText = this.updateBarInnerText(`${overWriteHeight}px`)
 
         await wait(sleepTimeRef)
         this.resetColorValues([index2, overWriteIndex])
@@ -98,5 +98,8 @@ export const animations = {
         this.resetColorValues(currentIndices)
     }
 }
-
 export type Animations = typeof animations
+
+// type Animater = (this:Animations, sleepTimeRef: SleepTime,currentIndices: CurrentIndices,
+//     overWriteIndex: number, overWriteHeight: number) => void;
+    

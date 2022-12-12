@@ -3,7 +3,7 @@ import './Footer.css'
 const Footer = () => {
     return (
         <>
-            <footer id='footer'><p><a href="#">Design & Develope By Wayon Taylor.</a></p></footer>
+            <footer id='footer'><p><a href="#">© 2022 Designed & Developed by Wayon Taylor.</a></p></footer>
         </>
     );
 }

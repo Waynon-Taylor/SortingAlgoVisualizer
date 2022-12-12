@@ -102,7 +102,7 @@ const SortOptions: React.FC = () => {
                         })
                     }
                     <button
-                        className='sort-buttons'
+                        className='auto-button sort-buttons'
                         onClick={handleAutoSort}
                         disabled={disabledStatus}>
                         Auto

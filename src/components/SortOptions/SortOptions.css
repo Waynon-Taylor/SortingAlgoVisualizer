@@ -22,7 +22,7 @@ button.sort-buttons {
     color: white;
 }
 
-button.sort-buttons.is-sorting::after {
+button.sort-buttons.is-sorting::after{
     content: '';
     position: absolute;
     top: 1.7em;
@@ -32,8 +32,12 @@ button.sort-buttons.is-sorting::after {
     outline: solid 2.3px rgba(20, 255, 0, 1);
 }
 
-.is-sorting {
+.is-sorting  {
     transform: translatey(-10px);
+}
+
+button.sort-buttons.auto-button{
+   color: rgb(0, 255, 72);
 }
 
 @media screen and (min-width: 550px) {
