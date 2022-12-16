@@ -62,11 +62,6 @@ const SortOptions: React.FC = () => {
             // getting buttonState index i+1 will ensure that sortType bubbleSort run last. 
             await NextSort(buttonsState[i+1].sortType)
         }
-        // await NextSort(MergeSort)
-        // await NextSort(QuickSort)
-        // await NextSort(HeapSort)
-        // await NextSort(BubbleSort)
-        // handleAutoSort()
     }
 
     delayRef.isPause = sortingDependencies.sleepTimeRef.isPause
