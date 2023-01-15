@@ -1,5 +1,5 @@
 import './Controls.css'
-import { FormEvent, useContext, useState, useMemo } from 'react';
+import { FormEvent, useContext, useState, useMemo, useEffect } from 'react';
 import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { UpdateTimeContext, TimeContext } from '../../contexts/TimeContext'
 import { DisabledContext } from '../../contexts/DisabledContext'
@@ -14,6 +14,23 @@ const Controls: React.FC = () => {
     const sleepTime = useContext(TimeContext)
     const setSleepTime = useContext(UpdateTimeContext)
     const disabledStatus = useContext(DisabledContext)
+
+    useEffect(() => {
+
+        sessionStorage.setItem('flipViewStatus', String(flipViewStatus))
+        const barsContainer = document.querySelector('.barsContainer')
+
+        // flipBarsContainer className is toggle here because if i did in the visualizer component
+        // there would need to be a render and that would cause the bars to reset to the initial state 
+        // and all the the sorted bars would be lost.
+
+        if (!flipViewStatus) {
+            barsContainer!.classList.remove('flipBarsContainer')
+            return
+        }
+        barsContainer!.classList.add('flipBarsContainer')
+
+    }, [flipViewStatus])
 
     function handleInpuitQuantity(e: FormEvent<HTMLInputElement>) {
         const array = [...arrayData]
@@ -46,19 +63,7 @@ const Controls: React.FC = () => {
     }
 
     const handleFlipView = () => {
-        sessionStorage.setItem('flipViewStatus', String(!flipViewStatus))
-        const barsContainer = document.querySelector('.barsContainer')
         setFlipView(!flipViewStatus)
-
-        // I toggle flipBarsContainer className here because if i did in the visualizer component
-        // there would need to be a render and that would cause the bars to reset to the initial state 
-        // and all the the sorted bars would be lost.
-        
-        if (!flipViewStatus) {
-            barsContainer!.classList.add('flipBarsContainer')
-            return
-        }
-        barsContainer!.classList.remove('flipBarsContainer')
     }
 
     return (
@@ -98,9 +103,9 @@ const Controls: React.FC = () => {
                 </div>
                 <div id='shuffle-freeze-flip-view-container'>
                     <div id='shuffle-freeze-container'>
-                        <button 
-                        title='This will also stop the current sorting algo...'
-                        onClick={() => window.location.reload()}>Shuffle</button>
+                        <button
+                            title='This will also stop the current sorting algo...'
+                            onClick={() => window.location.reload()}>Shuffle</button>
                         <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
                     </div>
                     <span onClick={handleFlipView} className='flip-view'>Flip View</span>

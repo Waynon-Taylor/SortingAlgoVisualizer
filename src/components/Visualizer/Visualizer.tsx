@@ -11,14 +11,12 @@ const Visualizer = () => {
 
   useEffect(() => {
     //handle initial quantity
-    console.log('visualizer-useEffect')
     const array: ArrayData = [], currentQuantity = 1;
     const quantity = evaluateSessionStorageValue("currentQuantity", 100)
     increaseArrayQuantity({ array, currentQuantity, quantity })
     setArray!(array)
   }, [])
 
-  console.log('visualizer')
   return (
     <>
       <section>
