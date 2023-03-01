@@ -1,4 +1,4 @@
-import { IncreaseArrayQuantity, SleepTime } from '../types/types'
+import { IncreaseArrayQuantity, SleepTime, ArrayData } from '../types/types'
 
 export function evaluateSessionStorageValue<T>(key: string, InitializeValue: T): T {
   let value = sessionStorage.getItem(key)
@@ -46,4 +46,18 @@ export async function wait(sleepTimeRef: SleepTime) {
   while (sleepTimeRef.isPause)
     await new Promise(resolve => setTimeout(() => resolve(null), pausetime))
   return new Promise(resolve => setTimeout(() => resolve(null), sleepTimeRef.inputSpeed))
+}
+
+export function shuffle(setArray: React.Dispatch<React.SetStateAction<ArrayData>> | null, maxQuantity?: number) {
+  const array: ArrayData = [], currentQuantity = 1
+  let quantity = Number(sessionStorage.getItem("currentQuantity"))
+
+  if (typeof maxQuantity === 'number') {
+    if (quantity > maxQuantity){
+      quantity = maxQuantity
+    }
+  }
+
+  increaseArrayQuantity({ array, currentQuantity, quantity })
+  setArray!(array)
 }

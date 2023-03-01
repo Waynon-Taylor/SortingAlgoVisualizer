@@ -1,10 +1,10 @@
 import './SortOptions.css'
 import React, { useContext, useState, useMemo } from 'react'
 import { ArrayData, SleepTime, SortingDependencies } from '../../types/types'
-import { setTimer, increaseArrayQuantity, wait } from '../../utils/utils'
+import { setTimer, increaseArrayQuantity, wait, shuffle } from '../../utils/utils'
 import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { TimeContext } from '../../contexts/TimeContext'
-import { DisabledContext, UpdateDisabledContext } from '../../contexts/DisabledContext'
+import { IsSortingContext, UpdateIsSortingContext } from '../../contexts/IsSortingContext'
 import BubbleSort from '../../Sorting Algos/BubbleSort'
 import MergeSort from '../../Sorting Algos/MergeSort'
 import QuickSort from '../../Sorting Algos/QuickSort'
@@ -29,8 +29,8 @@ const SortOptions: React.FC = () => {
     const array = useContext(ArrayDataContext)
     const setArray = useContext(UpdateArrayDataContext)
     const sleepTime = useContext(TimeContext)
-    const disabledStatus = useContext(DisabledContext)
-    const setDisabledStatus = useContext(UpdateDisabledContext)
+    const isSortingStatus = useContext(IsSortingContext)
+    const setIsSortingStatus = useContext(UpdateIsSortingContext)
     const [buttonsState, setButtonsState] = useState(initialButtonsState)
 
     sortingDependencies.auxiliaryArray = useMemo(() => [...array], [array])
@@ -39,11 +39,11 @@ const SortOptions: React.FC = () => {
 
     async function handleCurrentSort(currentSort: CurrentSort) {
         const { newButtonsState, initialButtonsState } = generateButtonsStates(currentSort)
-        setDisabledStatus(true)
+        setIsSortingStatus(true)
         setButtonsState(newButtonsState)
         await currentSort(sortingDependencies)
         setButtonsState(initialButtonsState)
-        setDisabledStatus(false)
+        setIsSortingStatus(false)
         setArray!(sortingDependencies.auxiliaryArray)
     }
 
@@ -56,11 +56,13 @@ const SortOptions: React.FC = () => {
     }
 
     async function handleAutoSort() {
+        const quantity = 100
         for (let i = 0; buttonsState.length - 1; i++) {
             // setting variable i to -1 will run bubble sort.
             if (i === buttonsState.length - 1) i = -1;
             // getting buttonState index i+1 will ensure that sortType bubbleSort run last. 
-            await NextSort(buttonsState[i+1].sortType)
+            shuffle(setArray, quantity)
+            await NextSort(buttonsState[i + 1].sortType)
         }
     }
 
@@ -68,8 +70,7 @@ const SortOptions: React.FC = () => {
     async function NextSort(currentSort: CurrentSort) {
         const { newButtonsState, initialButtonsState } = generateButtonsStates(currentSort)
 
-        shuffle()
-        setDisabledStatus(true)
+        setIsSortingStatus(true)
         setButtonsState(newButtonsState)
         await wait(delayRef)
         await currentSort(sortingDependencies)
@@ -77,14 +78,6 @@ const SortOptions: React.FC = () => {
         setButtonsState(initialButtonsState)
     }
 
-    function shuffle() {
-        const array: ArrayData = [], currentQuantity = 1
-        let quantity = Number(sessionStorage.getItem("currentQuantity"))
-        if (quantity > 100) quantity = 100
-        increaseArrayQuantity({ array, currentQuantity, quantity })
-        setArray!(array)
-    }
-    console.log('Sortrender')
     return (
         <>
             <nav>
@@ -94,7 +87,7 @@ const SortOptions: React.FC = () => {
                             return (
                                 <button
                                     key={ID()}
-                                    disabled={disabledStatus}
+                                    disabled={isSortingStatus}
                                     className={`${CurrentSortState.isSorting ? 'is-sorting' : ''} sort-buttons`}
                                     onClick={() => handleCurrentSort(CurrentSortState.sortType)}>
                                     {CurrentSortState.name}
@@ -105,7 +98,7 @@ const SortOptions: React.FC = () => {
                     <button
                         className='auto-button sort-buttons'
                         onClick={handleAutoSort}
-                        disabled={disabledStatus}>
+                        disabled={isSortingStatus}>
                         Auto
                     </button>
                 </div>

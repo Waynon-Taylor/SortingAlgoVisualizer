@@ -25,7 +25,7 @@ const Visualizer = () => {
             return (
               <div
                 key={ID()}
-                title={`${height}px`}
+                title={`${height}`}
                 className='bar '
                 style={{ height: `${height}px` }}>
                 {array.length <= 15 ? `${height}` : null}

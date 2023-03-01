@@ -7,3 +7,16 @@
 button {
     all: unset;
 }
+
+@media screen and (min-width:1600px) {
+
+    html {
+        display: flex;
+        justify-content: center;
+    }
+
+    body {
+        width: 1600px;
+        overflow: hidden;
+    }
+}

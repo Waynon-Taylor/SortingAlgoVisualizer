@@ -44,7 +44,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: var(--thumbWidth);
 }
 
-input[type="range"].disabledBorderClr::-webkit-slider-thumb {
+input[type="range"].disabled-Border-Clr::-webkit-slider-thumb {
     border-color: var(--disabledBluClr);
 }
 
@@ -62,7 +62,7 @@ input[type="range"]::-moz-range-thumb {
     width: calc(var(--thumbWidth) - 10px);
 }
 
-input[type="range"].disabledBorderClr::-moz-range-thumb {
+input[type="range"].disabled-Border-Clr::-moz-range-thumb {
     border-color: var(--disabledBluClr);
 }
 
@@ -71,15 +71,15 @@ input[type="range"].disabledBorderClr::-moz-range-thumb {
 #controls-container {
     display: flex;
     flex-direction: column;
+    font-size: min(5vw, 25px);
     gap: var(--controlsGap);
     padding: 15px;
-    font-size: min(5vw, 25px);
 }
 
 #range-container {
+    border: var(--rangeBorderStyle);
     display: flex;
     gap: 7px;
-    border: var(--rangeBorderStyle);
     width: 100%;
 }
 
@@ -91,20 +91,17 @@ input[type="range"].disabledBorderClr::-moz-range-thumb {
 #range-inputs-container, #rangeLables {
     display: flex;
     flex-direction: column;
-}
-
-#rangeLables, #range-inputs-container {
     padding: 10px;
 }
 
 #rangeLables {
-    justify-content: space-between;
     border-right: var(--rangeBorderStyle);
+    justify-content: space-between;
 }
 
 #range-inputs-container {
-    gap: 30px;
     border-left: var(--rangeBorderStyle);
+    gap: 30px;
     width: 100%;
 }
 
@@ -115,11 +112,11 @@ input[type="range"].disabledBorderClr::-moz-range-thumb {
 #shuffle-freeze-container button {
     background: var(--bluClr);
     color: white;
-    padding: 7px 0;
-    height: 28px;
-    width: 5.6em;
-    text-align: center;
     cursor: pointer;
+    height: 28px;
+    padding: 7px 0;
+    text-align: center;
+    width: 5.6em;
 }
 
 #shuffle-freeze-container button, .flip-view {

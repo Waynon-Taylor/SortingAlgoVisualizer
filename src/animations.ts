@@ -56,9 +56,13 @@ export const animations = {
 
         barOneElement.style.height = barTwoHeight
         barTwoElement.style.height = barOneHeight
-        //
+        
         barOneElement.innerText = this.updateBarInnerText(barTwoHeight)
+        barOneElement.title = this.updateBarInnerText(barTwoHeight)
+
         barTwoElement.innerText = this.updateBarInnerText(barOneHeight)
+        barTwoElement.title = this.updateBarInnerText(barOneHeight)
+        console.log(barTwoElement.title)
     },
 
     overWriteValue: async function (
@@ -71,7 +75,9 @@ export const animations = {
         const overWriteElement = this.barCollection[overWriteIndex]
         overWriteElement.style.backgroundColor = this.colors.color1
         overWriteElement.style.height = `${overWriteHeight}px`
+
         overWriteElement.innerText = this.updateBarInnerText(`${overWriteHeight}px`)
+        overWriteElement.title = `${overWriteHeight}px`
 
         await wait(sleepTimeRef)
         this.resetColorValues([index2, overWriteIndex])
@@ -92,7 +98,7 @@ export const animations = {
         //The overWriteValue() method will run specificly for merge sort only.
         if (overWriteIndex !== undefined && overWriteHeight !== undefined)
             return this.overWriteValue(sleepTimeRef, currentIndices, overWriteIndex, overWriteHeight);
-        ///
+        //
         this.swapValues(currentIndices)
         await this.compareValues(sleepTimeRef, currentIndices, color2, color1)
         this.resetColorValues(currentIndices)

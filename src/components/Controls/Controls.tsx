@@ -1,9 +1,10 @@
 import './Controls.css'
 import { FormEvent, useContext, useState, useMemo, useEffect } from 'react';
+import { ArrayData } from '../../types/types'
 import { ArrayDataContext, UpdateArrayDataContext } from '../../contexts/ArrayContex'
 import { UpdateTimeContext, TimeContext } from '../../contexts/TimeContext'
-import { DisabledContext } from '../../contexts/DisabledContext'
-import { increaseArrayQuantity, evaluateSessionStorageValue } from '../../utils/utils'
+import { IsSortingContext } from '../../contexts/IsSortingContext'
+import { increaseArrayQuantity, evaluateSessionStorageValue,shuffle } from '../../utils/utils'
 
 const Controls: React.FC = () => {
     const currentFlipViewStatus = useMemo(() => (evaluateSessionStorageValue('flipViewStatus', false)), [])
@@ -13,7 +14,7 @@ const Controls: React.FC = () => {
     const setArray = useContext(UpdateArrayDataContext)
     const sleepTime = useContext(TimeContext)
     const setSleepTime = useContext(UpdateTimeContext)
-    const disabledStatus = useContext(DisabledContext)
+    const isSortingStatus = useContext(IsSortingContext)
 
     useEffect(() => {
 
@@ -66,6 +67,14 @@ const Controls: React.FC = () => {
         setFlipView(!flipViewStatus)
     }
 
+    function handleShuffle() {
+        if (isSortingStatus) {
+            window.location.reload()
+            return
+        }
+        shuffle(setArray)
+    }
+
     return (
         <>
             <div id='controls-container'>
@@ -78,15 +87,15 @@ const Controls: React.FC = () => {
 
                     <div id='range-inputs-container'>
                         <input
-                            className={`${disabledStatus ? 'disabledBorderClr' : ''} `}
+                            className={`${isSortingStatus ? 'disabled-Border-Clr' : ''} `}
                             onInput={handleInpuitQuantity}
-                            disabled={disabledStatus}
+                            disabled={isSortingStatus}
                             type="range"
                             name="Quantity"
                             id="Quantity"
                             min="10"
                             value={arrayData.length}
-                            max="250"
+                            max="200"
                         />
 
                         <input
@@ -105,10 +114,10 @@ const Controls: React.FC = () => {
                     <div id='shuffle-freeze-container'>
                         <button
                             title='This will also stop the current sorting algo...'
-                            onClick={() => window.location.reload()}>Shuffle</button>
+                            onClick={handleShuffle}>Shuffle</button>
                         <button onClick={handleFreeze}>{sleepTime.isPause ? 'Unfreeze' : 'Freeze'}</button>
                     </div>
-                    <span onClick={handleFlipView} className='flip-view'>Flip View</span>
+                    <span onClick={handleFlipView} className='flip-view'>Flip-Bars</span>
                 </div>
             </div>
         </>
